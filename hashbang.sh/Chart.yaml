@@ -1,0 +1,17 @@
+name: hashbang.sh
+description: A Helm chart for the hashbang.sh public website
+home: https://github.com/hashbang/hashbang.sh
+apiVersion: v1
+tillerVersion: 2.9.1
+appVersion: 2.3.3
+version: 0.1.0
+maintainers:
+  - name: Lance Vick
+    email: lance@lrvick.net
+    url: https://lrvick.net
+sources:
+  - https://github.com/hashbang/hashbang.sh
+keywords:
+  - hashbang
+  - decentralized
+  - shell

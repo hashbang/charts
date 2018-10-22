@@ -1,0 +1,14 @@
+domain: "hashbang.sh"
+
+image:
+  registry: docker.io
+  repository: hashbang/hashbang.sh
+  tag: latest
+  pullPolicy: IfNotPresent
+
+container:
+  resources:
+    requests:
+      memory: 256Mi
+      cpu: 25m
+
