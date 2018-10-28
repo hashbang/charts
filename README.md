@@ -27,15 +27,15 @@ our systems with or without access to the production cluster.
 
 1. Clone repo
 
-```
-git clone git@github.com/hashbang/infra
-```
+    ```
+    git clone git@github.com/hashbang/infra
+    ```
 
 2. Source our toolchain
 
-```
-source scripts/tools.sh
-```
+    ```
+    source scripts/tools.sh
+    ```
 
 ## Testing ##
 
