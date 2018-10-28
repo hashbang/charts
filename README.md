@@ -50,3 +50,15 @@ source scripts/tools.sh
     ```
     helm install -n site charts/site
     ```
+
+4. Wait for pod to become healthy
+
+    ```
+    kubectl describe pods
+    ```
+
+5. Verify you can reach site via https using curl
+
+    ```
+    curl -H "Host: hashbang.sh" -k https://$(minikube ip)
+    ```
