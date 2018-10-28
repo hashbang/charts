@@ -48,5 +48,5 @@ source scripts/tools.sh
 3. Install Helm chart for a #! Service you want to test
 
     ```
-    helm install helm/hashbang.sh
+    helm install -n site charts/site
     ```

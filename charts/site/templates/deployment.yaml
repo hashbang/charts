@@ -33,7 +33,7 @@ spec:
         imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
         ports:
         - name: web
-          containerPort: 4443
+          containerPort: 8080
         livenessProbe:
           httpGet:
             path: /
