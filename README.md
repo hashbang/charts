@@ -13,7 +13,15 @@ our systems with or without access to the production cluster.
 
 ## Requirements
 
-  * x86_64 Linux or macOS workstaton with 2GB+ of memory
+  * x86_64 Linux or macOS workstaton
+  * 2GB+ of memory
+  * VT-x/AMD-v virtualization must be enabled in BIOS
+  * Internet connection on first run
+  * Linux
+    * [VirtualBox](https://www.virtualbox.org/wiki/Downloads) or [KVM](https://github.com/kubernetes/minikube/blob/master/docs/drivers.md#kvm-driver)
+    * **NOTE:** Minikube also supports a `--vm-driver=none` option that runs the Kubernetes components on the host and not in a VM. Docker is required to use this driver but no hypervisor. If you use `--vm-driver=none`, be sure to specify a [bridge network](https://docs.docker.com/network/bridge/#configure-the-default-bridge-network) for docker. Otherwise it might change between network restarts, causing loss of connectivity to your cluster.
+  * macOS
+    * [Hyperkit driver](https://github.com/kubernetes/minikube/blob/master/docs/drivers.md#hyperkit-driver), [xhyve driver](https://github.com/kubernetes/minikube/blob/master/docs/drivers.md#xhyve-driver), [VirtualBox](https://www.virtualbox.org/wiki/Downloads), or [VMware Fusion](https://www.vmware.com/products/fusion)
 
 ## Setup
 
@@ -23,7 +31,7 @@ our systems with or without access to the production cluster.
 git clone git@github.com/hashbang/infra
 ```
 
-3. Source our toolchain
+2. Source our toolchain
 
 ```
 source scripts/tools.sh
