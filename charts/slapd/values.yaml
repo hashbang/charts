@@ -1,0 +1,18 @@
+domain: "ldap.hashbang.sh"
+
+image:
+  registry: docker.io
+  repository: hashbang/slapd
+  tag: latest
+  pullPolicy: IfNotPresent
+
+container:
+  resources:
+    persistence:
+      enabled: true
+    requests:
+      memory: 256Mi
+      cpu: 25m
+      storage:
+        config: 256m
+        data: 8Gi

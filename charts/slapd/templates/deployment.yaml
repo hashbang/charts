@@ -1,0 +1,65 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ template "fullname" . }}
+  labels:
+    app: {{ template "name" . }}
+    chart: {{ template "chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  selector:
+    matchLabels:
+      app: {{ template "name" . }}
+      release: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ template "name" . }}
+        release: {{ .Release.Name }}
+    spec:
+      tolerations:
+      - key: "node.kubernetes.io/unreachable"
+        operator: "Exists"
+        effect: "NoExecute"
+        tolerationSeconds: 1800
+      - key: "node.kubernetes.io/not-ready"
+        operator: "Exists"
+        effect: "NoExecute"
+        tolerationSeconds: 1800
+      containers:
+      - name: {{ template "fullname" . }}
+        image: "{{ .Values.image.registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
+        ports:
+        - name: ldap
+          containerPort: 389
+        livenessProbe:
+          tcpSocket:
+            port: ldap
+          initialDelaySeconds: 900
+          periodSeconds: 5
+        readinessProbe:
+          tcpSocket:
+            port: ldap
+          initialDelaySeconds: 900
+          periodSeconds: 3
+        resources:
+          requests:
+            memory: {{ .Values.container.resources.requests.memory }}
+            cpu: {{ .Values.container.resources.requests.cpu }}
+        envFrom:
+        - configMapRef:
+            name: {{ template "fullname" . }}
+        volumeMounts:
+          - mountPath: /var/lib/ldap
+            name: {{ template "fullname" . }}-data
+          - mountPath: /etc/ldap/slapd.d
+            name: {{ template "fullname" . }}-config
+      volumes:
+      - name: {{ template "fullname" . }}-data
+        configMap:
+          name: {{ template "fullname" . }}-data
+      - name: {{ template "fullname" . }}-config
+        configMap:
+          name: {{ template "fullname" . }}-config

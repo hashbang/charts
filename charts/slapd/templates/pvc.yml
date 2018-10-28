@@ -1,0 +1,55 @@
+{{- if and .Values.container.persistence.enabled (not .Values.container.persistence.existingClaim) -}}
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: {{ template "fullname" . }}-data
+  labels:
+    app: {{ template "name" . }}
+    chart: {{ template "chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+{{- if .Values.container.persistence.annotations }}
+  annotations:
+{{ toYaml .Values.container.persistence.annotations | indent 4 }}
+{{- end }}
+spec:
+  accessModes:
+    - {{ .Values.container.persistence.accessMode | quote }}
+  resources:
+    requests:
+      storage: {{ .Values.container.resources.requests.storage.data | quote }}
+{{- if .Values.container.persistence.storageClass }}
+{{- if (eq "-" .Values.container.persistence.storageClass) }}
+  storageClassName: ""
+{{- else }}
+  storageClassName: "{{ .Values.container.persistence.storageClass }}"
+{{- end }}
+{{- end }}
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: {{ template "fullname" . }}-config
+  labels:
+    app: {{ template "name" . }}
+    chart: {{ template "chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+{{- if .Values.container.persistence.annotations }}
+  annotations:
+{{ toYaml .Values.container.persistence.annotations | indent 4 }}
+{{- end }}
+spec:
+  accessModes:
+    - {{ .Values.container.persistence.accessMode | quote }}
+  resources:
+    requests:
+      storage: {{ .Values.container.resources.requests.storage.config | quote }}
+{{- if .Values.container.persistence.storageClass }}
+{{- if (eq "-" .Values.container.persistence.storageClass) }}
+  storageClassName: ""
+{{- else }}
+  storageClassName: "{{ .Values.container.persistence.storageClass }}"
+{{- end }}
+{{- end }}
+{{- end }}
