@@ -45,7 +45,7 @@ spec:
           periodSeconds: 5
         readinessProbe:
           httpGet:
-            path: /about
+            path: /
             port: web
             httpHeaders:
             - name: X-Forwarded-Proto
