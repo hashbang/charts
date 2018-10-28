@@ -3,7 +3,7 @@
 This repo is WIP, but aims to be the new home for all of the needed tooling
 and configuration to deploy or maintain hashbang infrastructure.
 
-This is intended to superseed the "admin-tools" repo to a get us to immutable
+This is intended to supercede the "admin-tools" repo to a get us to immutable
 infrastructure-as-code using terraform to provision resources and helm/k8s to
 manage services.
 
