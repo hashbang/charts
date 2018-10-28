@@ -2,7 +2,7 @@ domain: "hashbang.sh"
 
 image:
   registry: docker.io
-  repository: hashbang/hashbang.sh
+  repository: hashbang/site
   tag: latest
   pullPolicy: IfNotPresent
 
