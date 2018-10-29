@@ -10,6 +10,7 @@ container:
   resources:
     persistence:
       enabled: true
+      accessMode: ReadWriteMany
     requests:
       memory: 256Mi
       cpu: 25m

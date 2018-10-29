@@ -1,4 +1,4 @@
-{{- if and .Values.container.persistence.enabled (not .Values.container.persistence.existingClaim) -}}
+{{- if and .Values.container.resources.persistence.enabled (not .Values.container.resources.persistence.existingClaim) -}}
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
@@ -8,21 +8,21 @@ metadata:
     chart: {{ template "chart" . }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
-{{- if .Values.container.persistence.annotations }}
+{{- if .Values.container.resources.persistence.annotations }}
   annotations:
-{{ toYaml .Values.container.persistence.annotations | indent 4 }}
+{{ toYaml .Values.container.resources.persistence.annotations | indent 4 }}
 {{- end }}
 spec:
   accessModes:
-    - {{ .Values.container.persistence.accessMode | quote }}
+    - {{ .Values.container.resources.persistence.accessMode | quote }}
   resources:
     requests:
       storage: {{ .Values.container.resources.requests.storage.data | quote }}
-{{- if .Values.container.persistence.storageClass }}
-{{- if (eq "-" .Values.container.persistence.storageClass) }}
+{{- if .Values.container.resources.persistence.storageClass }}
+{{- if (eq "-" .Values.container.resources.persistence.storageClass) }}
   storageClassName: ""
 {{- else }}
-  storageClassName: "{{ .Values.container.persistence.storageClass }}"
+  storageClassName: "{{ .Values.container.resources.persistence.storageClass }}"
 {{- end }}
 {{- end }}
 ---
@@ -35,21 +35,21 @@ metadata:
     chart: {{ template "chart" . }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
-{{- if .Values.container.persistence.annotations }}
+{{- if .Values.container.resources.persistence.annotations }}
   annotations:
-{{ toYaml .Values.container.persistence.annotations | indent 4 }}
+{{ toYaml .Values.container.resources.persistence.annotations | indent 4 }}
 {{- end }}
 spec:
   accessModes:
-    - {{ .Values.container.persistence.accessMode | quote }}
+    - {{ .Values.container.resources.persistence.accessMode | quote }}
   resources:
     requests:
-      storage: {{ .Values.container.resources.requests.storage.config | quote }}
-{{- if .Values.container.persistence.storageClass }}
-{{- if (eq "-" .Values.container.persistence.storageClass) }}
+      storage: {{ .Values.container.resources.requests.storage.data | quote }}
+{{- if .Values.container.resources.persistence.storageClass }}
+{{- if (eq "-" .Values.container.resources.persistence.storageClass) }}
   storageClassName: ""
 {{- else }}
-  storageClassName: "{{ .Values.container.persistence.storageClass }}"
+  storageClassName: "{{ .Values.container.resources.persistence.storageClass }}"
 {{- end }}
 {{- end }}
 {{- end }}
