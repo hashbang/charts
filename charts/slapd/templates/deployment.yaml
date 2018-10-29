@@ -58,8 +58,8 @@ spec:
             name: {{ template "fullname" . }}-config
       volumes:
       - name: {{ template "fullname" . }}-data
-        configMap:
-          name: {{ template "fullname" . }}-data
+        persistentVolumeClaim:
+          claimName: {{ template "fullname" . }}-data
       - name: {{ template "fullname" . }}-config
-        configMap:
-          name: {{ template "fullname" . }}-config
+        persistentVolumeClaim:
+          claimName: {{ template "fullname" . }}-config
