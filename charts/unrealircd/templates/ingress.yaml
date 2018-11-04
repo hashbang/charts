@@ -1,0 +1,21 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: {{ template "fullname" . }}
+  labels:
+    app: {{ template "name" . }}
+    chart: {{ template "chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  tls:
+    - hosts:
+      - {{ .Values.domain }}
+      secretName: {{ template "fullname" . }}
+  rules:
+    - host: {{ .Values.domain }}
+      http:
+        paths:
+          - backend:
+              serviceName: {{ template "name" . }}
+              servicePort: ircd-ssl

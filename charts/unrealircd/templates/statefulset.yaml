@@ -1,0 +1,63 @@
+apiVersion: apps/v1beta1
+kind: StatefulSet
+metadata:
+  name: {{ template "fullname" . }}
+  labels:
+    app: {{ template "name" . }}
+    chart: {{ template "chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  serviceName: {{ template "fullname" . }}
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: {{ template "name" . }}
+        release: {{ .Release.Name }}
+    spec:
+      containers:
+      - name: {{ template "fullname" . }}
+        {{ if .Values.image.registry }}
+        image: "{{ .Values.image.registry }}/{{ .Values.image.repository}}:{{ .Values.image.tag }}"
+        {{ else }}
+        image: "{{ .Values.image.repository}}:{{ .Values.image.tag }}"
+        {{ end }}
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        {{ if .Values.image.command }}
+        command: {{ .Values.image.command }}
+        {{ end }}
+        ports:
+        - name: irc
+          containerPort: 6667
+          protocol: TCP
+        - name: irc-websocket
+          protocol: TCP
+          containerPort: 6800
+        - name: services
+          protocol: TCP
+          containerPort: 7000
+        livenessProbe:
+          tcpSocket:
+            port: irc
+          initialDelaySeconds: 900
+          periodSeconds: 5
+        readinessProbe:
+          tcpSocket:
+            port: irc
+          initialDelaySeconds: 900
+          periodSeconds: 3
+        resources:
+          requests:
+            memory: {{ .Values.container.resources.requests.memory }}
+            cpu: {{ .Values.container.resources.requests.cpu }}
+        envFrom:
+        - configMapRef:
+            name: {{ template "fullname" . }}
+        volumeMounts:
+        - name: ircd-config
+          mountPath: /usr/lib64/unrealircd/conf/
+      volumes:
+        - name: ircd-config
+          configMap:
+            name: {{ template "fullname" . }}

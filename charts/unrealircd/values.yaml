@@ -1,0 +1,135 @@
+domain: &domain irc.hashbang.sh
+services_domain: &services_domain services.irc.hashbang.sh
+
+container:
+  resources:
+    persistence:
+      enabled: true
+      accessMode: ReadWriteMany
+    requests:
+      memory: 256Mi
+      cpu: 25m
+
+image:
+  # registry: docker.io
+  # repository: hashbang/unrealircd
+  #repository: unrealircd
+  repository: ircd
+  tag: 4.2.0-rc1
+  pullPolicy: IfNotPresent
+  # command: ["/bin/sh"]
+
+opers:
+  admins: []
+
+unrealircd:
+  includes:
+    - modules.default.conf
+    - opers.conf
+    - aliases/anope.conf
+    - help/help.conf
+    - badwords.conf
+    - spamfilter.conf
+    - operclass.default.conf
+  admin:
+    name: Hashbang IRC Staff
+    email: staff@hashbang.sh
+  me:
+    name: irc.hashbang.sh
+    info: Hashbang IRC Network
+    sid: 001
+  clients:
+    pingfreq: 90
+    maxclients: 1000
+    sendq: 100000
+    recvq: 8000
+  servers:
+    pingfreq: 90
+    maxclients: 10
+    sendq: 100000
+    recvq: 8000
+  # links:
+  #   - username: "*"
+  #     hostname: sf1.irc.hashbang.sh
+  #     port: 6667
+  #     password: ircd
+  #     hub: "*"
+  #     class: servers
+  #     options:
+  #       - nohostcheck
+  #       - nodnscache
+  #       - autoconnect
+  #       - ssl
+  services:
+    - incoming:
+        mask: "*"
+      outgoing:
+        bind_ip: "(null)"
+        hostname: services.irc.hasbang.sh
+        port: 6697
+        options:
+          - ssl
+      class: servers
+      password: "ircd"
+  ulines:
+    - irc.hashbang.sh
+  banned_nicks:
+    - NickServ
+    - ChanServ
+    - MemoServ
+    - OperServ
+    - BotServ
+    - HostServ
+  allow:
+    - ip: "*@*"
+      class: clients
+      maxperip: 1000
+      options:
+        - useip
+    - hostname: "*@*.hashbang.sh"
+      class: clients
+      maxperip: 1000
+  listen:
+    - ip: "*"
+      port: 6697
+      options:
+        - ssl
+    - ip: "*"
+      port: 6800
+      options:
+        - ssl
+      ssl_options:
+        - no-client-certificate
+  network_config:
+    network-name: "#!"
+    default-server: *domain
+    services-server: *services_domain
+    help-channel: "#!help"
+    hiddenhost-prefix: "#!"
+    cloak-keys: []
+    ssl:
+      trusted-ca-file:
+      certificate:
+      key:
+      server-cipher-list: "ECDH+AESGCM256:ECDH+AESGCM128:ECDH+AES256:ECDH+AES128:!aNULL:!MD5:!RC4:!DSS:!EXPORT"
+    sasl-server: *services_domain
+  server_config:
+    kline_address: "team@hashbang.sh"
+    modes_on_connect: "+iwx"
+    modes_on_oper": "+xwgs"
+    snomask_on_oper": "+ksfvGqo"
+    oper_auto_join": "#!opers"
+    options:
+      - hide-ulines
+      - identd-check
+      - show-connect-info
+    maxchannelsperuser: 20;
+    anti_spam_quit_message_time:  10s
+    oper_only_stats: "okfGsMRUEelLCXzdD"
+    anti_flood:
+      nick_flood: "3:60"
+    spamfilter:
+      ban_time: 1d
+      ban_reason: "Spam/Advertising"
+      virus_help_channel: "#!help"
+

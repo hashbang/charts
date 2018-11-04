@@ -1,0 +1,8 @@
+.git/
+.gitignore
+*.sw[p|o]
+*.bak
+*.tmp
+*~
+.*
+overrides.yaml

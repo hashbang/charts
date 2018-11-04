@@ -1,0 +1,17 @@
+name: unrealircd
+description: A Halm chart for the hashbang.sh unrealircd server
+home: https://github.com/hashbang/docker-unrealircd
+apiVersion: v1
+appVersion: 2.3.3
+tillerVersion: 2.12.1
+version: 0.1.0
+maintainers:
+  - name: Danny Grove
+    email: danny@drgrovellc.com
+    url: https://dannygrove.com
+sources:
+  - https://github.com/hashbang/docker-unrealircd
+keywords:
+  - hashbang
+  - ircd
+  - unrealircd

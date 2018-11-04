@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ template "fullname" . }}
+  labels:
+    app: {{ template "name" . }}
+    chart: {{ template "chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+data:
+  unrealircd.conf: |-
+    {{ tpl (.Files.Get "configs/unrealircd.tpl") . }}
+  opers.conf: |-
+    {{ tpl (.Files.Get "configs/opers.tpl") . }}
+
