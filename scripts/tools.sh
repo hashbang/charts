@@ -41,11 +41,11 @@ tiller_file="tiller-${os}-amd64-${helm_version}"
 helm_archive="${helm_file}.tar.gz"
 helm_archive_path="${os}-amd64"
 
-dir=$(dirname "$0")
+dir=$(dirname "${BASH_SOURCE[0]}")
 temp_dir="${dir}/../.tmp"
-download_dir="${temp_dir}/downloads/"
-release_dir="${temp_dir}/releases/"
-bin_dir="${temp_dir}/bin/"
+download_dir="${temp_dir}/downloads"
+release_dir="${temp_dir}/releases"
+bin_dir="${temp_dir}/bin"
 mkdir -p "${download_dir}" "${release_dir}" "${bin_dir}"
 
 if [ ! -f "${release_dir}/${minikube_file}" ]; then
