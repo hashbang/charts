@@ -30,3 +30,17 @@ Create chart name and version as used by the chart label.
 {{- define "chart" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
+
+{{/*
+Create an adjusted file name that will work in helm
+*/}}
+{{- define "adjusted-file-name" -}}
+{{- printf "%s" . | replace "/" "_" | trunc 63 -}}
+{{- end -}}
+
+{{/*
+Get folder from configs
+*/}}
+{{- define "fromConfigs" -}}
+{{- printf "%s" (cat "configs/" .) | replace " " "" -}}
+{{- end -}}

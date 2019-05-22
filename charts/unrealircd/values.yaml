@@ -24,13 +24,19 @@ opers:
 
 unrealircd:
   includes:
-    - modules.default.conf
-    - opers.conf
-    - aliases/anope.conf
-    - help/help.conf
-    - badwords.conf
-    - spamfilter.conf
-    - operclass.default.conf
+    - src: modules.default.conf
+    - src: aliases/aliases.conf
+    - src: aliases/anope.conf
+    - src: help/help.conf
+    - src: badwords.conf
+    - src: spamfilter.conf
+    - src: operclass.default.conf
+    - src: opers.tpl
+      dest: opers.conf
+      type: "template"
+    - src: unrealircd.tpl
+      dest: unrealircd.conf
+      type: "template"
   admin:
     name: Hashbang IRC Staff
     email: staff@hashbang.sh

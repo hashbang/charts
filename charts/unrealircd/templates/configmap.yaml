@@ -1,3 +1,4 @@
+{{- if .Values.unrealircd.includes }}
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -8,8 +9,13 @@ metadata:
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
 data:
-  unrealircd.conf: |-
-    {{ tpl (.Files.Get "configs/unrealircd.tpl") . }}
-  opers.conf: |-
-    {{ tpl (.Files.Get "configs/opers.tpl") . }}
-
+{{ $root := . }}
+{{- range .Values.unrealircd.includes }}
+  {{ template "adjusted-file-name" .src }}: |-
+{{- if and (.type) (eq .type "template") }}
+{{ tpl ($root.Files.Get (include "fromConfigs" .src)) $root | indent 4 }}
+{{- else }}
+{{ $root.Files.Get (include "fromConfigs" .src) | indent 4 }}
+{{- end }}
+{{- end }}
+{{ end }}
