@@ -7,7 +7,7 @@ replicaCount: 1
 image:
   repository: hashbang/book
   tag: latest
-  digest: 861bdc1803efc7c584fcee1dfea2acdc7b93f0c7ba1193c414c5291c87c2faab
+  digest: 99625ec13e9bc6fc3805ac490da3543973dd362979463b1388fae6652eb5f2fe
   pullPolicy: Always
 
 imagePullSecrets: []
